@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+prettier -w $(find -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \))

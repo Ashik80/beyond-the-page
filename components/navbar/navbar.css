@@ -1,0 +1,7 @@
+#nav-container {
+  border-bottom: 1px solid var(--grey);
+}
+
+#nav-logo {
+  width: 15rem;
+}

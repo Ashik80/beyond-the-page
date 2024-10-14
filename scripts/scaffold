@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+GREEN=$(tput -Txterm setaf 2)
+YELLOW=$(tput -Txterm setaf 3)
+RESET=$(tput -Txterm sgr0)
+
+function mkdirIfNotExists() {
+    if [ ! -d $1 ]; then
+        mkdir -p $1
+        echo "${GREEN}created${RESET} ${YELLOW}directory${RESET} $1"
+    fi
+}
+
+function touchFileIfNotExists() {
+    if [ ! -f $1 ]; then
+        touch $1
+        echo "${GREEN}created${RESET} ${YELLOW}file${RESET}      $1"
+    fi
+}
+
+function generatePageFiles() {
+    echo "Generating page files..."
+    mkdirIfNotExists pages/$1
+    touchFileIfNotExists pages/$1/$1.html
+    touchFileIfNotExists pages/$1/$1.js
+    touchFileIfNotExists pages/$1/$1.css
+}
+
+function generateComponentFiles() {
+    echo "Generating component files..."
+    mkdirIfNotExists components/$1
+    touchFileIfNotExists components/$1/$1.html
+    touchFileIfNotExists components/$1/$1.js
+    touchFileIfNotExists components/$1/$1.css
+}
+
+case $1 in
+    page)
+        generatePageFiles $2
+        ;;
+    component)
+        generateComponentFiles $2
+        ;;
+    *)
+        echo "Bad option"
+        exit 1
+        ;;
+esac

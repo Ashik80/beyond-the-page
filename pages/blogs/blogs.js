@@ -1,6 +1,13 @@
 async function InitBlogPage() {
   const blogList = [
     {
+      title: "Secure Auth with OAuth2.0",
+      description: "How to use refresh tokens to generate access tokens",
+      color: "pink",
+      image: "oauth-jwt.png",
+      link: "/secure-auth-with-oauth2",
+    },
+    {
       title: "Postgres on Ubuntu",
       description: "Steps to setup postgres on ubuntu, without the pain",
       color: "yellow",

@@ -81,8 +81,19 @@
     <p>
       Replace &lt;version&gt; with the psql version you have installed. Search
       for the word <code>peer</code> and replace it with md5 for the first two
-      occurences. Save the file and restart postgresql service with the command
+      occurences. From:
     </p>
+    <pre
+      class="my-1"
+    ><span class="lang">conf</span><code># TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             postgres                                peer
+local   all             all                                     peer</code></pre>
+    <p>To:</p>
+    <pre
+      class="my-1"
+    ><span class="lang">conf</span><code>local   all             postgres                                md5
+local   all             all                                     md5</code></pre>
+    <p>Save the file and restart postgresql service with the command</p>
     <pre
       class="my-1"
     ><span class="lang">sh</span><code>sudo systemctl restart postgresql</code></pre>

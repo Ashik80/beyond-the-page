@@ -1,6 +1,17 @@
 async function InitBlogPage() {
   const blogList = [
     {
+      title: "Manage Multiple Git Accounts",
+      description: "Be it any platform that uses git version control",
+      color: "light-green",
+      image: "manage-multiple-git-accounts.png",
+      size: {
+        height: "130px",
+        width: "auto",
+      },
+      link: "/manage-multiple-git-accounts",
+    },
+    {
       title: "Secure Auth with OAuth2.0",
       description: "How to use refresh tokens to generate access tokens",
       color: "pink",
@@ -46,6 +57,10 @@ async function InitBlogPage() {
 function setBlogCardImage(imageContainer, blog) {
   imageContainer.style.backgroundColor = `var(--${blog.color})`;
   const image = document.createElement("img");
+  if (blog.size) {
+    image.style.height = blog.size.height;
+    image.style.width = blog.size.width;
+  }
   image.src = `assets/${blog.image}`;
   imageContainer.appendChild(image);
 }

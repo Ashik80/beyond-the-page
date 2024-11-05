@@ -17,10 +17,12 @@ window.addEventListener("click", (e) => {
   if (element.tagName === "A") {
     e.preventDefault();
     const url = new URL(element.href);
+    if (window.location.pathname === url.pathname) return;
     loadPage(url.pathname);
   } else if (element.parentElement.tagName === "A") {
     e.preventDefault();
     const url = new URL(element.parentElement.href);
+    if (window.location.pathname === url.pathname) return;
     loadPage(url.pathname);
   }
 });
@@ -51,24 +53,18 @@ async function loadPage(page) {
 }
 
 function loadJS(url) {
-  const existingJSScripts = document.querySelectorAll(`script`);
-  for (const script of existingJSScripts) {
-    if (script.src.includes(url)) {
-      script.remove();
-    }
-  }
+  const existingJSScripts = document.querySelector(`script[src="${url}"]`);
+  if (existingJSScripts) existingJSScripts.remove();
   const script = document.createElement("script");
   script.src = url;
   document.body.appendChild(script);
 }
 
 function loadCSS(url) {
-  const existingCssLinks = document.querySelectorAll('link[rel="stylesheet"]');
-  for (const link of existingCssLinks) {
-    if (link.href.includes(url)) {
-      link.remove();
-    }
-  }
+  const existingCssLink = document.querySelector(
+    `link[rel="stylesheet"][href="${url}"]`,
+  );
+  if (existingCssLink) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = url;

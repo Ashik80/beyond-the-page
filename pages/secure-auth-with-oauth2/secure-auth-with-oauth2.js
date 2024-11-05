@@ -3,6 +3,8 @@ function SecureAuthWithOAuthInit() {
   mdnDocLink.onclick = (e) => {
     e.stopPropagation();
   };
+
+  attachComponentScript("components/code-block/code-block.js");
 }
 
 SecureAuthWithOAuthInit();

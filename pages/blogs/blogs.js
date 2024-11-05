@@ -28,18 +28,18 @@ async function InitBlogPage() {
   ];
 
   const blogsContainer = document.getElementById("blogs-container");
-  const parser = new DOMParser();
 
+  const blogs = [];
   for (const blog of blogList) {
-    const blogCard = await loadComponent("blog-card");
-    const cardElem = parser.parseFromString(blogCard, "text/html").body
-      .children[0];
-
-    const imageContainer = cardElem.children[0];
-    setBlogCardImage(imageContainer, blog);
-
-    const blogInfoContainer = cardElem.children[1];
-    setBlogCardInfo(blogInfoContainer, blog);
+    const blogCard = document.createElement("blog-card");
+    blogCard.blogTitle = blog.title;
+    blogCard.description = blog.description;
+    blogCard.imageUrl = blog.image;
+    blogCard.color = blog.color;
+    if (blog.size) {
+      blogCard.setAttribute("image-height", blog.size.height);
+      blogCard.setAttribute("image-width", blog.size.width);
+    }
 
     const atag = document.createElement("a");
     atag.href = blog.link;
@@ -49,25 +49,12 @@ async function InitBlogPage() {
       const url = new URL(atag.href);
       loadPage(url.pathname);
     };
-    atag.appendChild(cardElem);
-    blogsContainer.appendChild(atag);
+    atag.appendChild(blogCard);
+    blogs.push(atag);
   }
-}
+  blogsContainer.append(...blogs);
 
-function setBlogCardImage(imageContainer, blog) {
-  imageContainer.style.backgroundColor = `var(--${blog.color})`;
-  const image = document.createElement("img");
-  if (blog.size) {
-    image.style.height = blog.size.height;
-    image.style.width = blog.size.width;
-  }
-  image.src = `assets/${blog.image}`;
-  imageContainer.appendChild(image);
-}
-
-function setBlogCardInfo(blogInfoContainer, blog) {
-  blogInfoContainer.children[0].innerHTML = blog.title;
-  blogInfoContainer.children[1].innerHTML = blog.description;
+  attachComponentScript("components/blog-card/blog-card.js");
 }
 
 InitBlogPage();

@@ -4,6 +4,8 @@ function InitPostgresOnUbuntu() {
   psqlLink.onclick = (e) => {
     e.stopPropagation();
   };
+
+  attachComponentScript("components/code-block/code-block.js");
 }
 
 InitPostgresOnUbuntu();

@@ -13,13 +13,15 @@
       account. Assuming we are on a *NIX machine, let's create the first key by
       running this command in a terminal
     </p>
-    <pre><span class="lang">sh</span><code>ssh-keygen</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">ssh-keygen</code-block>
     <p>
       This will prompt us to save the key in a file along with the path where
       the key is supposed to be. The prompt will look like this
     </p>
-    <pre><span class="lang">sh</span><code>Generating public/private xxxxxxx key pair.
-Enter file in which to save the key (/home/shuvo/.ssh/id_xxxxxxx):</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">Generating public/private xxxxxxx key pair.
+Enter file in which to save the key (/home/shuvo/.ssh/id_xxxxxxx):</code-block>
     <p>
       As you can see the we are shown an example of the file name. Make sure to
       provide the full path for this. So, in our case, we will type
@@ -60,7 +62,8 @@ Enter file in which to save the key (/home/shuvo/.ssh/id_xxxxxxx):</code></pre>
       argument. So instead of just <code>git clone</code> we are going to have
       to do this
     </p>
-    <pre><span class="lang">sh</span><code>GIT_SSH_COMMAND="ssh -i ~/.ssh/personal" git clone git@github.com:.....</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">GIT_SSH_COMMAND="ssh -i ~/.ssh/personal" git clone git@github.com:.....</code-block>
     <p>
       This will allow us to clone the repository without any problems. To
       perform any other git commands on this repository you will need to pass in
@@ -72,19 +75,20 @@ Enter file in which to save the key (/home/shuvo/.ssh/id_xxxxxxx):</code></pre>
       troublesome every single time. So we will configure the current repository
       to use the ssh key for any git commands. On your terminal, run
     </p>
-    <pre><span class="lang">sh</span><code>git config -e</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">git config -e</code-block>
     <p>
       This will open the project specific git configuration file in our editor.
       On the section that says <code>core</code> we will set our key, and also
       set our email and name while we are at it in the <code>user</code> section
     </p>
-    <pre><span class="lang">gitconfig</span><code>[core]
+    <!-- prettier-ignore -->
+    <code-block lang="gitconfig">[core]
     ...
     sshCommand = ssh -i ~/.ssh/personal
 [user]
     name = Ashik
-    email = mygitemail@mail.com
-    </code></pre>
+    email = mygitemail@mail.com</code-block>
     <p>
       Now you don't have to pass the environment variable again. Try simply
       running the command <code>git pull</code> and you will see that it works.

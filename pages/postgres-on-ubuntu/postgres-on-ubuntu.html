@@ -17,9 +17,8 @@
     </p>
     <h3>Installation</h3>
     <p>To install postgres on Ubuntu you need to run the command</p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>sudo apt install postgresql</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">sudo apt install postgresql</code-block>
     <p>
       The <code>psql</code> cli is an important cli tool and required to a lot
       more than just manage your database in the terminal (which I obviously do
@@ -35,9 +34,8 @@
       to learn more about it.
     </p>
     <p>Now try getting into the psql interface with</p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>psql -U postgres</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">psql -U postgres</code-block>
     <p>
       You'll be prompted to provided a password for the user postgres. But
       what's the password? I never found out. But I found a way to change the
@@ -51,52 +49,45 @@
       To change the password for the use postgres, we need to go into the psql
       repl (?) first. We can do it by running the command
     </p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>sudo -u postgres psql</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">sudo -u postgres psql</code-block>
     <p>
       You'll see your terminal enter the psql interface. It'll probably start
       with <code>postgres=#</code> if you are using default settings in your
       terminal. Then change the password by running an sql query
     </p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>postgres=# ALTER USER postgres PASSWORD 'my_postgres_password';</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">postgres=# ALTER USER postgres PASSWORD 'my_postgres_password';</code-block>
     <p>
       The password is changed for the user postgres so now you can exit the psql
       interface by typing \q and enter
     </p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>postgres=# \q</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">postgres=# \q</code-block>
     <p>
       Even after all this you will not be able to access the psql interface with
       the psql -U postgres command. For that you will need to change a file
       named pg_hba.conf, where you will specify what kind of authentication you
       want. I suggest you do this with vim (or nano)
     </p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>sudo vim /etc/postgresql/&lt;version&gt;/main/pg_hba.conf</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">sudo vim /etc/postgresql/&lt;version&gt;/main/pg_hba.conf</code-block>
     <p>
       Replace &lt;version&gt; with the psql version you have installed. Search
       for the word <code>peer</code> and replace it with md5 for the first two
       occurences. From:
     </p>
-    <pre
-      class="my-1"
-    ><span class="lang">conf</span><code># TYPE  DATABASE        USER            ADDRESS                 METHOD
+    <!-- prettier-ignore -->
+    <code-block lang="conf"># TYPE  DATABASE        USER            ADDRESS                 METHOD
 local   all             postgres                                peer
-local   all             all                                     peer</code></pre>
+local   all             all                                     peer</code-block>
     <p>To:</p>
-    <pre
-      class="my-1"
-    ><span class="lang">conf</span><code>local   all             postgres                                md5
-local   all             all                                     md5</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="conf">local   all             postgres                                md5
+local   all             all                                     md5</code-block>
     <p>Save the file and restart postgresql service with the command</p>
-    <pre
-      class="my-1"
-    ><span class="lang">sh</span><code>sudo systemctl restart postgresql</code></pre>
+    <!-- prettier-ignore -->
+    <code-block lang="sh">sudo systemctl restart postgresql</code-block>
     <p>
       Now when you want to access the psql interface with the postgres user, you
       will be prompted to provide the password. Enter the new password and you

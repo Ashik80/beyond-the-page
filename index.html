@@ -15,25 +15,15 @@
   </head>
   <body>
     <div class="flex flex-col h-100">
-      <div id="navbar"></div>
+      <app-navbar></app-navbar>
       <main class="grow-1"></main>
       <div id="footer" class="shrink-1"></div>
+      <app-footer></app-footer>
     </div>
     <script src="services/favicon-selector.js"></script>
     <script src="services/router.js"></script>
     <script src="services/component.js"></script>
-    <script>
-      async function InitIndex() {
-        const navContainer = document.getElementById("navbar");
-        const footerContainer = document.getElementById("footer");
-
-        const navComponent = await loadComponent("navbar");
-        navContainer.innerHTML = navComponent;
-
-        const footerComponent = await loadComponent("footer");
-        footerContainer.innerHTML = footerComponent;
-      }
-      InitIndex();
-    </script>
+    <script src="components/navbar/navbar.js"></script>
+    <script src="components/footer/footer.js"></script>
   </body>
 </html>

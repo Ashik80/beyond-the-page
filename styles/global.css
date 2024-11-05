@@ -15,6 +15,7 @@
   --pink: #f4abc4;
   --light-pink: #ecdfcc;
   --yellow: #ffd369;
+  --orange: #f09319;
   --light-blue: #6eacda;
   --light-green: #b1d690;
   --text: #ffffff;
@@ -47,25 +48,6 @@ a {
 
 code {
   font-family: monospace;
-}
-
-pre {
-  position: relative;
-}
-
-pre code {
-  background-color: var(--code-block);
-  border-radius: 0.2rem;
-  padding: 1rem;
-  width: 100%;
-  display: block;
-  color: var(--light-grey);
-}
-
-pre .lang {
-  position: absolute;
-  top: 0;
-  right: 0.2rem;
-  font-size: 0.7rem;
-  color: var(--grey);
+  /*background-color: var(--code-block);*/
+  color: var(--orange);
 }

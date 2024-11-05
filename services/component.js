@@ -1,20 +1,7 @@
-async function loadComponent(component) {
-  const filepath = `components/${component}/${component}`;
-  const url = `${filepath}.html`;
-  const jsUrl = `${filepath}.js`;
-  const cssUrl = `${filepath}.css`;
-
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(res);
-    }
-    loadCSS(cssUrl);
-    const html = await res.text();
-    loadJS(jsUrl);
-    return html;
-  } catch (error) {
-    console.error(error);
-    return "";
-  }
+function attachComponentScript(link) {
+  let script = document.querySelector(`script[src='${link}']`);
+  if (script) return;
+  script = document.createElement("script");
+  script.src = link;
+  document.body.appendChild(script);
 }

@@ -50,6 +50,8 @@ async function loadPage(page) {
   } catch (err) {
     console.error("Error loading page:", err);
   }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function loadJS(url) {

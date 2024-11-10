@@ -1,7 +1,10 @@
 const whiteButtonTemplate = document.createElement("template");
 whiteButtonTemplate.innerHTML = `
   <style>
-    @import url('styles/global.css');
+    :root {
+      --background: #1e201e;
+      --text: #ffffff;
+    }
 
     button {
       background-color: var(--text);

@@ -24,9 +24,14 @@ html {
   font-family: "Lora", serif;
   font-optical-sizing: auto;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5;
   font-style: normal;
+}
+@media (min-width: 640px) {
+  html {
+    font-size: 1.2rem;
+  }
 }
 
 body {
@@ -40,12 +45,25 @@ a {
 }
 
 .container {
+  width: 85%;
   max-width: var(--max-container-width);
-  width: 100%;
+}
+@media (min-width: 640px) {
+  .container {
+    width: 100%;
+  }
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+@media (min-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
 }
 
 code {
   font-family: monospace;
-  /*background-color: var(--code-block);*/
   color: var(--orange);
 }

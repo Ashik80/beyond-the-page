@@ -97,7 +97,15 @@ class BlogCard extends HTMLElement {
   createStyles() {
     const styles = document.createElement("style");
     styles.textContent = `
-      @import url('styles/global.css');
+      :root {
+        --grey: #3c3d37;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
       .flex {
         display: flex;

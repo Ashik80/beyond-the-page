@@ -1,7 +1,11 @@
 const codeBlockTemplate = document.createElement("template");
 codeBlockTemplate.innerHTML = `
   <style>
-    @import url('styles/global.css');
+    :root {
+      --code-block: #000000;
+      --muted-grey: #a9a9a9;
+      --grey: #3c3d37;
+    }
 
     pre {
       position: relative;
@@ -11,9 +15,9 @@ codeBlockTemplate.innerHTML = `
       background-color: var(--code-block);
       border-radius: 0.2rem;
       padding: 1rem;
-      width: 100%;
       display: block;
       color: var(--muted-grey);
+      overflow-x: auto;
     }
 
     span {

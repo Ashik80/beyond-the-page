@@ -1,20 +1,18 @@
 const appFooterTemplate = document.createElement("template");
 appFooterTemplate.innerHTML = `
   <style>
-    :root {
-      #footer-container {
-        border-top: 1px solid var(--grey);
-        height: 2.5rem;
-      }
+    #footer-container {
+      border-top: 1px solid var(--grey);
+      height: 2.5rem;
+    }
 
-      .footer-small-text {
-        color: var(--muted-grey);
-        font-size: 0.8rem;
-      }
+    .footer-small-text {
+      color: var(--muted-grey);
+      font-size: 0.8rem;
+    }
 
-      .footer-link {
-        text-decoration: none;
-      }
+    .footer-link {
+      text-decoration: none;
     }
   </style>
   <footer id="footer-container" class="flex justify-center">

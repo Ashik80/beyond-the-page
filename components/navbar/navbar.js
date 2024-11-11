@@ -1,14 +1,64 @@
 const appNavbarTemplate = document.createElement("template");
 appNavbarTemplate.innerHTML = `
   <style>
+    :root {
+      --text: #ffffff;
+      --grey: #3c3d37;
+      --max-container-width: 1192px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .w-100 {
+      width: 100%;
+    }
+    .hidden {
+      display: none;
+    }
+    .flex {
+      display: flex;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .justify-between {
+      justify-content: space-between;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .list-style-none {
+      list-style: none;
+    }
+    .mr-3 {
+      margin-right: 3rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    a {
+      color: var(--text);
+    }
+    .container {
+      width: 85%;
+      max-width: var(--max-container-width);
+    }
+    @media (min-width: 640px) {
+      .container {
+        width: 100%;
+      }
+    }
+
     #navbar {
       border-bottom: 1px solid var(--grey);
+      padding: 1rem 0;
     }
     #logo img {
       width: 11rem;
     }
     #hamburger-menu {
-      display: block;
       background-color: transparent;
       color: var(--text);
       overflow: hidden;
@@ -18,9 +68,9 @@ appNavbarTemplate.innerHTML = `
     }
     #desktop-items {
       display: none;
-      list-style: none;
     }
     #phone-items {
+      margin-top: 2rem;
       transition: display 2s ease-in;
     }
 
@@ -42,7 +92,7 @@ appNavbarTemplate.innerHTML = `
       }
     }
   </style>
-  <div id="navbar" class="py-1">
+  <div id="navbar">
     <nav class="flex justify-center">
       <div class="container flex justify-between items-center">
         <a id="logo" href="/">
@@ -72,7 +122,8 @@ class AppNavbar extends HTMLElement {
   constructor() {
     super();
     this._opened = false;
-    this.appendChild(appNavbarTemplate.content.cloneNode(true));
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(appNavbarTemplate.content.cloneNode(true));
   }
 
   /**
@@ -94,9 +145,17 @@ class AppNavbar extends HTMLElement {
   }
 
   connectedCallback() {
-    this.button = this.querySelector("#hamburger-menu");
-    this.phoneItems = this.querySelector("#phone-items");
+    this.button = this.shadowRoot.querySelector("#hamburger-menu");
+    this.phoneItems = this.shadowRoot.querySelector("#phone-items");
     this.phoneItemLinks = this.phoneItems.querySelectorAll("a");
+
+    this.allLinks = this.shadowRoot.querySelectorAll("a");
+    for (const link of this.allLinks) {
+      link.addEventListener(
+        "click",
+        this.dispatchLinkClickEvent.bind(this, link),
+      );
+    }
 
     this.button.addEventListener("click", this.onMenuBtnClick.bind(this));
     for (const link of this.phoneItemLinks) {
@@ -104,10 +163,24 @@ class AppNavbar extends HTMLElement {
     }
   }
 
+  dispatchLinkClickEvent(link) {
+    const ev = new CustomEvent("nav-link-click", {
+      detail: link.href,
+      bubbles: true,
+    });
+    this.dispatchEvent(ev);
+  }
+
   disconnectedCallback() {
     this.button.removeEventListener("click", this.onMenuBtnClick.bind(this));
     for (const link of this.phoneItemLinks) {
       link.removeEventListener("click", this.closeMenuOnClick.bind(this));
+    }
+    for (const link of this.allLinks) {
+      link.removeEventListener(
+        "click",
+        this.dispatchLinkClickEvent.bind(this, link),
+      );
     }
   }
 

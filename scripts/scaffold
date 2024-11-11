@@ -27,11 +27,9 @@ function generatePageFiles() {
 }
 
 function generateComponentFiles() {
-    echo "Generating component files..."
+    echo "Generating component file..."
     mkdirIfNotExists components/$1
-    touchFileIfNotExists components/$1/$1.html
     touchFileIfNotExists components/$1/$1.js
-    touchFileIfNotExists components/$1/$1.css
 }
 
 case $1 in

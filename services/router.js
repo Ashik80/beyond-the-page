@@ -1,4 +1,5 @@
 const main = document.getElementsByTagName("main")[0];
+const loader = document.querySelector("app-loader");
 
 window.addEventListener("popstate", (e) => {
   if (e.state) {
@@ -12,8 +13,17 @@ window.addEventListener("load", () => {
   loadPage(window.location.pathname);
 });
 
+window.addEventListener("nav-link-click", (e) => {
+  const url = new URL(e.detail);
+  if (window.location.pathname === url.pathname) return;
+  loadPage(url.pathname);
+});
+
 window.addEventListener("click", (e) => {
   const element = e.target;
+  if (element.shadowRoot) {
+    e.preventDefault();
+  }
   if (element.tagName === "A") {
     e.preventDefault();
     const url = new URL(element.href);
@@ -36,17 +46,25 @@ async function loadPage(page) {
   const cssUrl = `${filepath}.css`;
   const jsUrl = `${filepath}.js`;
 
+  loader.progress = 30;
+
   try {
+    loadCSS(cssUrl);
+
     const res = await fetch(url);
+    loader.progress = 70;
     if (!res.ok) {
       throw new Error(res);
     }
-    loadCSS(cssUrl);
 
     const html = await res.text();
     main.innerHTML = html;
 
+    loader.progress = 90;
+
     loadJS(jsUrl);
+
+    loader.progress = 95;
   } catch (err) {
     console.error("Error loading page:", err);
   }

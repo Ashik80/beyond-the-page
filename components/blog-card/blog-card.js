@@ -6,6 +6,7 @@ blogCardTemplate.innerHTML = `
 <style>
   #blog-card {
     height: 100%;
+    width: 100%;
     overflow: hidden;
     border-radius: 0.2rem;
   }

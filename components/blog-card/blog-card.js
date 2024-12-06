@@ -1,16 +1,63 @@
-class BlogCard extends HTMLElement {
+import globalCss from "../../styles/global.css" with { type: "css" };
+import strapCss from "../../styles/strapcss.css" with { type: "css" };
+
+const blogCardTemplate = document.createElement("template");
+blogCardTemplate.innerHTML = `
+<style>
+  #blog-card {
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.2rem;
+  }
+  .image-container {
+    justify-content: center;
+    padding: 1rem;
+    align-items: center;
+  }
+  .image-container img {
+    width: 100%;
+  }
+  .info-container {
+    background-color: var(--grey);
+    padding: 1rem;
+    flex: 1 1 auto;
+  }
+</style>
+<div id="blog-card" class="container flex flex-col">
+  <div class="image-container flex flex-col">
+    <img/>
+  </div>
+  <div class="info-container">
+    <h2></h2>
+    <p></p>
+  </div>
+</div>`;
+
+export class BlogCard extends HTMLElement {
   constructor() {
     super();
 
     this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(blogCardTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss, strapCss];
+
+    this.imageContainer = this.shadowRoot.querySelector(".image-container");
+    this.imageTag = this.shadowRoot.querySelector("img");
+    this.titleTag = this.shadowRoot.querySelector("h2");
+    this.descriptionTag = this.shadowRoot.querySelector("p");
   }
 
   connectedCallback() {
-    this.render();
-  }
+    this.imageContainer.style.backgroundColor = `var(--${this.color})`;
 
-  disconnectedCallback() {
-    this.shadowRoot.replaceChildren();
+    this.imageTag.src = `assets/${this.imageUrl}`;
+    if (this.imageHeight && this.imageWidth) {
+      this.imageTag.style.height = this.imageHeight;
+      this.imageTag.style.width = this.imageWidth;
+    }
+
+    this.titleTag.innerText = this.blogTitle;
+    this.descriptionTag.innerText = this.description;
   }
 
   /**
@@ -18,6 +65,7 @@ class BlogCard extends HTMLElement {
    */
   set blogTitle(val) {
     this._title = val;
+    this.titleTag.innerText = val;
   }
   get blogTitle() {
     return this._title;
@@ -28,6 +76,7 @@ class BlogCard extends HTMLElement {
    */
   set description(val) {
     this._description = val;
+    this.descriptionTag.innerText = val;
   }
   get description() {
     return this._description;
@@ -38,6 +87,7 @@ class BlogCard extends HTMLElement {
    */
   set imageUrl(val) {
     this._imageUrl = val;
+    this.imageTag.src = `assets/${val}`;
   }
   get imageUrl() {
     return this._imageUrl;
@@ -48,6 +98,7 @@ class BlogCard extends HTMLElement {
    */
   set color(val) {
     this._color = val;
+    this.imageContainer.style.backgroundColor = `var(--${this.color})`;
   }
   get color() {
     return this._color;
@@ -59,83 +110,6 @@ class BlogCard extends HTMLElement {
 
   get imageWidth() {
     return this.getAttribute("image-width");
-  }
-
-  render() {
-    const container = document.createElement("div");
-    container.classList.add("container", "flex");
-
-    const imageContainer = document.createElement("div");
-    imageContainer.classList.add("image-container", "flex");
-    imageContainer.style.backgroundColor = `var(--${this.color})`;
-
-    const image = document.createElement("img");
-    image.src = `assets/${this.imageUrl}`;
-    if (this.imageHeight && this.imageWidth) {
-      image.style.height = this.imageHeight;
-      image.style.width = this.imageWidth;
-    }
-    imageContainer.appendChild(image);
-
-    const infoContainer = document.createElement("div");
-    infoContainer.classList.add("info-container");
-
-    this.titleTag = document.createElement("h2");
-    this.titleTag.innerText = this.blogTitle;
-    this.descriptionTag = document.createElement("p");
-    this.descriptionTag.innerText = this.description;
-
-    infoContainer.append(this.titleTag, this.descriptionTag);
-
-    container.append(imageContainer, infoContainer);
-
-    const styles = this.createStyles();
-
-    this.shadowRoot.replaceChildren(styles, container);
-  }
-
-  createStyles() {
-    const styles = document.createElement("style");
-    styles.textContent = `
-      :root {
-        --grey: #3c3d37;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      .flex {
-        display: flex;
-      }
-
-      .container {
-        border-radius: 0.2rem;
-        overflow: hidden;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .image-container {
-        justify-content: center;
-        padding: 1rem;
-        align-items: center;
-      }
-
-      .image-container img {
-        width: 100%;
-      }
-
-      .info-container {
-        background-color: var(--grey);
-        padding: 1rem;
-        flex: 1 1 auto;
-      }
-    `;
-
-    return styles;
   }
 }
 

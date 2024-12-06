@@ -18,18 +18,94 @@ function touchFileIfNotExists() {
     fi
 }
 
+# Convert input to camel case for variable names
+function toCamelCase() {
+  local str="$1"
+  local result=""
+  local firstWord=1
+
+  IFS='-' read -ra words <<< "$str"
+
+  for word in "${words[@]}"; do
+    if [ $firstWord -eq 1 ]; then
+      result+="${word}"
+      firstWord=0
+    else
+      result+="${word^}"
+    fi
+  done
+
+  echo "$result"
+}
+
+# Convert input to pascal case for class names
+function toPascalCase() {
+  local str="$1"
+  local result=""
+
+  IFS='-' read -ra words <<< "$str"
+
+  for word in "${words[@]}"; do
+    result+="${word^}"
+  done
+
+  echo "$result"
+}
+
+# Function to write a multiline indented block of code to a file
+function writeCodeBlock() {
+  local filename="$1"
+  local codeBlock="$2"
+
+  echo "$codeBlock" | while IFS= read -r line; do
+    echo "$line" >> "$filename"
+  done
+}
+
 function generatePageFiles() {
-    echo "Generating page files..."
+    echo "Generating page file..."
     mkdirIfNotExists pages/$1
-    touchFileIfNotExists pages/$1/$1.html
     touchFileIfNotExists pages/$1/$1.js
-    touchFileIfNotExists pages/$1/$1.css
+
+    className=$(toPascalCase $1)
+    templateName=$(toCamelCase $1)
+    codeBlock=$(cat << EOF
+const ${templateName}Template = document.createElement("template");
+${templateName}Template.innerHTML = \`\`;
+
+class $className extends HTMLElement {
+  constructor() {
+    super();
+  }
+}
+
+customElements.define("$1-page", $className);
+EOF
+    )
+    writeCodeBlock pages/$1/$1.js "$codeBlock"
 }
 
 function generateComponentFiles() {
     echo "Generating component file..."
     mkdirIfNotExists components/$1
     touchFileIfNotExists components/$1/$1.js
+
+    className=$(toPascalCase $1)
+    templateName=$(toCamelCase $1)
+    codeBlock=$(cat << EOF
+const ${templateName}Template = document.createElement("template");
+${templateName}Template.innerHTML = \`\`;
+
+class $className extends HTMLElement {
+  constructor() {
+    super();
+  }
+}
+
+customElements.define("$1", $className);
+EOF
+    )
+    writeCodeBlock components/$1/$1.js "$codeBlock"
 }
 
 case $1 in

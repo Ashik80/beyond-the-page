@@ -1,56 +1,9 @@
+import globalCss from "../../styles/global.css" with { type: "css" };
+import strapCss from "../../styles/strapcss.css" with { type: "css" };
+
 const appNavbarTemplate = document.createElement("template");
 appNavbarTemplate.innerHTML = `
   <style>
-    :root {
-      --text: #ffffff;
-      --grey: #3c3d37;
-      --max-container-width: 1192px;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    .w-100 {
-      width: 100%;
-    }
-    .hidden {
-      display: none;
-    }
-    .flex {
-      display: flex;
-    }
-    .justify-center {
-      justify-content: center;
-    }
-    .justify-between {
-      justify-content: space-between;
-    }
-    .items-center {
-      align-items: center;
-    }
-    .list-style-none {
-      list-style: none;
-    }
-    .mr-3 {
-      margin-right: 3rem;
-    }
-    .text-center {
-      text-align: center;
-    }
-    a {
-      color: var(--text);
-    }
-    .container {
-      width: 85%;
-      max-width: var(--max-container-width);
-    }
-    @media (min-width: 640px) {
-      .container {
-        width: 100%;
-      }
-    }
-
     #navbar {
       border-bottom: 1px solid var(--grey);
       padding: 1rem 0;
@@ -124,6 +77,7 @@ class AppNavbar extends HTMLElement {
     this._opened = false;
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(appNavbarTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss, strapCss];
   }
 
   /**

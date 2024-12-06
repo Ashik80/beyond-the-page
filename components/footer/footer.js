@@ -1,3 +1,6 @@
+import globalCss from "../../styles/global.css" with { type: "css" };
+import strapCss from "../../styles/strapcss.css" with { type: "css" };
+
 const appFooterTemplate = document.createElement("template");
 appFooterTemplate.innerHTML = `
   <style>
@@ -31,7 +34,27 @@ appFooterTemplate.innerHTML = `
 class AppFooter extends HTMLElement {
   constructor() {
     super();
-    this.appendChild(appFooterTemplate.content.cloneNode(true));
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(appFooterTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss, strapCss];
+  }
+
+  connectedCallback() {
+    this.allATags = this.shadowRoot.querySelectorAll("a");
+    for (const link of this.allATags) {
+      link.addEventListener(
+        "click",
+        this.dispatchLinkClickEvent.bind(this, link),
+      );
+    }
+  }
+
+  dispatchLinkClickEvent(link) {
+    const ev = new CustomEvent("nav-link-click", {
+      detail: link.href,
+      bubbles: true,
+    });
+    this.dispatchEvent(ev);
   }
 }
 

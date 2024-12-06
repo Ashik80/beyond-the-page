@@ -1,17 +1,13 @@
+import globalCss from "../../styles/global.css" with { type: "css" };
+
 const codeBlockTemplate = document.createElement("template");
 codeBlockTemplate.innerHTML = `
   <style>
-    :root {
-      --code-block: #000000;
-      --muted-grey: #a9a9a9;
-      --grey: #3c3d37;
-    }
-
     pre {
       position: relative;
     }
 
-    code {
+    pre code {
       background-color: var(--code-block);
       border-radius: 0.2rem;
       padding: 1rem;
@@ -31,10 +27,12 @@ codeBlockTemplate.innerHTML = `
   <pre><span id="lang"></span><code><slot></slot></code></pre>
 `;
 
-class CodeBlock extends HTMLElement {
+export class CodeBlock extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(codeBlockTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss];
   }
 
   get lang() {
@@ -42,11 +40,6 @@ class CodeBlock extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
-  }
-
-  render() {
-    this.shadowRoot.appendChild(codeBlockTemplate.content.cloneNode(true));
     const lang = this.shadowRoot.querySelector("#lang");
     lang.innerText = this.lang;
   }

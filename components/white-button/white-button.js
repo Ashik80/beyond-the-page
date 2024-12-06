@@ -1,11 +1,8 @@
+import globalCss from "../../styles/global.css" with { type: "css" };
+
 const whiteButtonTemplate = document.createElement("template");
 whiteButtonTemplate.innerHTML = `
   <style>
-    :root {
-      --background: #1e201e;
-      --text: #ffffff;
-    }
-
     button {
       background-color: var(--text);
       color: var(--background);
@@ -20,11 +17,12 @@ whiteButtonTemplate.innerHTML = `
   <button><slot></slot></button>
 `;
 
-class WhiteButton extends HTMLElement {
+export class WhiteButton extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(whiteButtonTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss];
   }
 }
 

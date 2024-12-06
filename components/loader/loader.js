@@ -1,9 +1,8 @@
+import globalCss from "../../styles/global.css" with { type: "css" };
+
 const loaderTemplate = document.createElement("template");
 loaderTemplate.innerHTML = `
   <style>
-    :root {
-      --light-blue: #6eacda;
-    }
     #container {
       width: 100%;
       position: fixed;
@@ -27,6 +26,7 @@ class AppLoader extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(loaderTemplate.content.cloneNode(true));
+    this.shadowRoot.adoptedStyleSheets = [globalCss];
     this.progressBar = this.shadowRoot.querySelector("#progress");
   }
 
@@ -40,7 +40,7 @@ class AppLoader extends HTMLElement {
       this.timer = setTimeout(() => {
         this.progressBar.style.visibility = "hidden";
         this.progressBar.style.width = "0";
-      }, 1000);
+      }, 250);
     } else {
       this.progressBar.style.visibility = "visible";
     }
